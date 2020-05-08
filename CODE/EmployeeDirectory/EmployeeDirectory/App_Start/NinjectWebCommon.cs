@@ -5,7 +5,8 @@ namespace EmployeeDirectory.App_Start
 {
     using System;
     using System.Web;
-
+    using EmployeeDirectory.Infrastructure.Abstraction;
+    using EmployeeDirectory.Infrastructure.Implementation;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 
     using Ninject;
@@ -61,6 +62,7 @@ namespace EmployeeDirectory.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<IEmployeeRepository>().To<EF_Employee>();
         }
     }
 }
