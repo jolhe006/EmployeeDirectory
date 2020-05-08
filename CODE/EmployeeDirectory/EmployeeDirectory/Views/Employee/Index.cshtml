@@ -1,0 +1,65 @@
+﻿@model EmployeeDirectory.Viewmodels.EmployeeViewmodel
+@{var _props = Model.GetDisplayNames(); }
+    <div class="row justify-content-end">
+        @* textbox to search by name *@
+        @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+        {
+            <form class="form-inline">
+                <div class="input-group mb-2 mr-sm-2">
+                    @Html.TextBox("search", Model.Search, new { @class = "form-control", type = "search", placeholder = "Search by Name" })
+                    <div class="input-group-append">
+                        <button class="btn btn-success my-2 my-sm-0" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        }
+        <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    @* print head table from the model properties *@
+                    @foreach (var prop in _props)
+                    {
+                        <th scope="col">
+                            @Html.ActionLink(prop.DisplayName, "Index", new { sort = prop.Info.Name, page = Model.Page }, new { @class = "btn btn-dark" })
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @* print data from list result*@
+                @foreach (var item in Model.Employees)
+                {
+                    <tr>
+                        @foreach (var prop in _props)
+                        {
+                            string _v = prop.Info.GetValue(item).ToString();
+                            <td>
+                                @Html.DisplayFor(model => _v)
+                            </td>
+                        }
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @* print pagination*@
+        @if (Model.GetPagesCount() > 1)
+        {
+            <nav aria-label="Page navigation" class="w-100">
+                <ul class="pagination justify-content-center">
+                    @{ int prev = @Model.Page - 1, next = Model.Page + 1;}
+                    <li class="page-item @(prev < 1 ? "disabled" : "")">
+                        @Html.ActionLink("Prev", "Index", new { page = $"{prev}", sort = Model.SortOrder }, new { @class = "page-link" })
+                    </li>
+                    @for (int i = 1; i <= Model.GetPagesCount(); i++)
+                    {
+                        <li class="page-item @(@Model.Page == i ? "active" : "")">
+                            @Html.ActionLink(i.ToString(), "Index", new { page = i, sort = Model.SortOrder }, new { @class = "page-link" })
+                        </li>
+                    }
+                    <li class="page-item @(next > Model.GetPagesCount() ? "disabled" : "")">
+                        @Html.ActionLink("Next", "Index", new { page = $"{next}", sort = Model.SortOrder }, new { @class = "page-link" })
+                    </li>
+                </ul>
+            </nav>
+        }
+    </div>
