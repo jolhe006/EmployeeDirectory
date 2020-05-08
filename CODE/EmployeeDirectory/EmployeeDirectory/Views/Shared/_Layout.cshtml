@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <header class="fixed-top">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+            <div class="container">
+                @Html.ActionLink("Employees Directory", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-md-end mr-auto" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">@Html.ActionLink("Employees", "Index", "Employee", null, new { @class = "nav-link" })</li>                        
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container body-content min-vh-100 mt-3">
+        @RenderBody()
+    </div>
+    <footer>
+        <hr />
+        <p>&copy; @DateTime.Now.Year</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/appjs")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
